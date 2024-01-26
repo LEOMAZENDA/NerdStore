@@ -14,9 +14,10 @@ public class Producto : Entity, IAggregateRoot
     public DateTime DataCadastro { get; private set; }
     public string Imagem { get; private set; } = string.Empty;
     public int Estoque { get; private set; }
+    public Dimemsoes Dimemsoes { get; private set; }
     public Categoria? Categoria { get; set; }
 
-    public Producto(string nome, string descricao, bool ativo, decimal valor,Guid categoriaId, DateTime dataCadastro, string imagem)
+    public Producto(string nome, string descricao, bool ativo, decimal valor,Guid categoriaId, DateTime dataCadastro, string imagem, Dimemsoes dimemsoes )
     {
         CategoriaId = categoriaId;
         Nome = nome;
@@ -25,6 +26,7 @@ public class Producto : Entity, IAggregateRoot
         Valor = valor;
         DataCadastro = dataCadastro;
         Imagem = imagem;
+        Dimemsoes = dimemsoes;
 
         Validar();
     } 
@@ -70,31 +72,6 @@ public class Producto : Entity, IAggregateRoot
         Validacioes.ValidarSeDiferente(object1: CategoriaId, object2: Guid.Empty, mensagem: "O campo  categoria do producto não deve estar vazio");
         Validacioes.ValidarSeMenorIgualMinimo(Valor, minimo:0, mensagem: "Este campo, o seu valor nao deve ser menor ou igual a 0");
         Validacioes.ValidarSeVazio(valor: Imagem, mensagem: "Este campo não deve estar vazio");
-    }
-}
-
-public class Categoria : Entity
-{
-    public string Nome { get; private set; } = string.Empty;
-    public int Codigo { get; private set; }
-
-  public Categoria(string nome, int codigo)
-    {
-        Nome = nome;
-        Codigo = codigo;
-
-        Validar();
-    }
-
-    public override string ToString()
-    {
-        return $"{Nome} - {Codigo}"; 
-    }
-
-    public void Validar()
-    {
-        Validacioes.ValidarSeVazio(valor: Nome, mensagem: "Este campo não deve estar vazio");
-        Validacioes.ValidarSeIgual(object1: Codigo, object2: 0, mensagem: "Este campo, o seu valor não deve ser 0");
     }
 }
 
